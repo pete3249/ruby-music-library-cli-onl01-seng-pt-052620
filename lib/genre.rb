@@ -1,10 +1,20 @@
-class Genre
+require 'pry'
 
+class Genre
+    extend Concerns::Findable
     attr_accessor :name
     @@all = []
 
     def initialize(name)
         @name = name
+    end 
+
+    def self.all
+        @@all
+    end 
+
+    def self.destroy_all
+        @@all.clear
     end 
 
     def save
@@ -17,12 +27,12 @@ class Genre
         new_genre
     end 
 
-    def self.all
-        @@all
+    def songs
+        Song.all.select{|song| song.genre = self}
     end 
 
-    def self.destroy_all
-        @@all.clear
+    def artists
+        self.songs.collect {|song| song.artist}.uniq
     end 
 
 end 
